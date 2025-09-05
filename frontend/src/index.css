@@ -34,9 +34,11 @@ body{
   justify-content: center;
   background-color: #1E1E1E;
   width: 25%;
-  min-height:400px;
+  min-height: 400px;
+  height: auto;
   margin: auto;
   border-radius: 25px;
+  box-shadow:#4472C4 1px 1px;
 }
 
 .card-form{
@@ -51,10 +53,15 @@ body{
   width: 5rem;
   align-self: center;
   margin-top: 1rem;
+  margin-bottom:1rem;
+  background-color: #4472C4;
+}
+.button:hover{
+  background-color: #5A8DEE;
 }
 
 .logo{
-  width: 170px;
-  height: 50px;
+  width: 200px;
+  height: 70px;
   align-self: center;
 }
