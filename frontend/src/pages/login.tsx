@@ -1,6 +1,6 @@
 import Logo from "../assets/BudgetTracker.svg"
 
-function LoginSignUp(){
+function Login(){
     return(
         <form action="">
             <div className="container">
@@ -14,11 +14,11 @@ function LoginSignUp(){
 
                     {/* User Name */}
                     <label htmlFor="uname"></label>
-                    <input className="card-form" type="text" placeholder="Enter Username" name="uname" required/>
+                    <input className="card-form" type="text" placeholder=" Enter Username " name="uname" required/>
 
                     {/* Password */}
                     <label htmlFor="psw"></label>
-                    <input className="card-form" type="text" placeholder="Enter Password" name="psw" required/>
+                    <input className="card-form" type="text" placeholder=" Enter Password " name="psw" required/>
 
 
                     {/* Remember me*/}
@@ -39,8 +39,6 @@ function LoginSignUp(){
                     </button>
                     
 
-                    
-
                 </div>
             </div>
         </form>
@@ -49,4 +47,4 @@ function LoginSignUp(){
 
 
 
-export default LoginSignUp; 
+export default Login; 
