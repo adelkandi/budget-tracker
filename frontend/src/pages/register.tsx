@@ -21,11 +21,11 @@ function Register(){
 
                     {/* Password */}
                     <label htmlFor="psw"></label>
-                    <input className="card-form" type="text" placeholder=" Password " name="psw" required/> 
+                    <input className="card-form" type="password" placeholder=" Password " name="psw" required/> 
 
                     {/* RePassword */}
                     <label htmlFor="repsw"></label>
-                    <input className="card-form" type="text" placeholder=" Re-Password " name="repsw" required/> 
+                    <input className="card-form" type="password" placeholder=" Re-Password " name="repsw" required/> 
 
                     {/* Submit Button */}
                     <button type="submit" className="button inline-flex items-center justify-center px-6 py-2 rounded-lg
