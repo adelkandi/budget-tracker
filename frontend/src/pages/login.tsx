@@ -18,7 +18,7 @@ function Login(){
 
                     {/* Password */}
                     <label htmlFor="psw"></label>
-                    <input className="card-form" type="text" placeholder=" Enter Password " name="psw" required/>
+                    <input className="card-form" type="password" placeholder=" Enter Password " name="psw" required/>
 
 
                     {/* Remember me*/}
