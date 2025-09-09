@@ -7,13 +7,15 @@
 body{
   margin: 0;
   display: flex;
-  padding-top: 6rem;
+  /* padding-top: 6rem; */
   background-color: #232323;
   font-family: "Poppins";
   color: #F8F8FF;
   flex-direction: column;
 }
 
+
+/* Login and Register Page */
 .title{
   font-size: 45px;
   font-weight: 500;
@@ -26,6 +28,7 @@ body{
   margin: 0 auto;
 }
 
+
 .cart-box{
   display: flex;
   padding-top: 1rem;
@@ -37,6 +40,7 @@ body{
   min-height: 400px;
   height: auto;
   margin: auto;
+  margin-top: 6rem;
   border-radius: 25px;
   box-shadow:#4472C4 1px 1px;
 }
@@ -64,4 +68,11 @@ body{
   width: 200px;
   height: 70px;
   align-self: center;
+}
+
+
+/* Dashboard Page */
+
+.dashboard-container{
+
 }
