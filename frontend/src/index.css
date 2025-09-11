@@ -73,6 +73,8 @@ body{
 
 /* Dashboard Page */
 
-.dashboard-container{
 
+
+.card-container{
+  flex: 5;
 }
