@@ -21,6 +21,9 @@ function LoginCard(){
                     <label htmlFor="psw"></label>
                     <input className="card-form" type="password" placeholder=" Enter Password " name="psw" required/>
 
+                    {/* Create Account */}
+                    <label htmlFor="cacc"></label>
+                    <a href="/register" className="register-link">Create an account</a>
 
                     {/* Remember me*/}
                     <label>
