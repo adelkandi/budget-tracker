@@ -14,7 +14,10 @@ function Dashboard(){
                 <ExpenseCard />
                 <BalanceCard />
             </div>
-            <IncomeExpensesChart />
+            <div className="flex justify-center gap">
+                <IncomeExpensesChart />
+            </div>
+            
         </> 
     );
 }
