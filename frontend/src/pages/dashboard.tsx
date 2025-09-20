@@ -9,6 +9,7 @@ function Dashboard(){
     return (
         <>
             <Navbar />
+            <h1 className="dashboard-title text-5xl mx-5 my-5">Dashboard</h1>
             <div className="dashboard-container flex justify-center gap-6">
                 <IncomeCard />
                 <ExpenseCard />
