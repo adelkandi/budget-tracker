@@ -4,15 +4,20 @@ function Transactions(){
     return (
         <>
             <Navbar />
-            <div className="transactions-container">
+            <div className="transactions-container grid justify-center">
                 {/* This is a test to design the table later it will change */}
+                <button className=" button inline-flex items-center justify-center px-6 py-2 rounded-lg
+                            bg-blue-700 text-white font-semibold
+                            hover:bg-blue-700 active:bg-blue-800
+                            focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2
+                            transition">Add</button>
                 <table>
                     <tr>
                         <th>Date</th>
                         <th>Type</th>
                         <th>Category</th>
                         <th>Amount</th>
-                        <th>Methode</th>
+                        <th>Method</th>
                         <th>Notes</th>
                     </tr>
                     <tr>
