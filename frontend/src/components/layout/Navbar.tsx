@@ -14,7 +14,7 @@ function Navbar(){
                 <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center space-x-10">
                     <a href="/dashboard" className="hover:text-[#5A8DEE]">Dashboard</a>
                     <a href="/transactions" className="hover:text-[#5A8DEE]">Transactions</a>
-                    <a href="#" className="hover:text-[#5A8DEE]">Budget</a>
+                    <a href="/budget" className="hover:text-[#5A8DEE]">Budget</a>
                     <a href="#" className="hover:text-[#5A8DEE]">Reports</a>
                 </div>
 
