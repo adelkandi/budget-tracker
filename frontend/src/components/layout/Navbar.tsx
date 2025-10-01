@@ -16,12 +16,12 @@ function Navbar(){
                     <a href="/dashboard" className="hover:text-[#5A8DEE]">Dashboard</a>
                     <a href="/transactions" className="hover:text-[#5A8DEE]">Transactions</a>
                     <a href="/budget" className="hover:text-[#5A8DEE]">Budget</a>
-                    <a href="#" className="hover:text-[#5A8DEE]">Reports</a>
+                    <a href="/reports" className="hover:text-[#5A8DEE]">Reports</a>
                 </div>
 
                 {/* Profile */}
                 <div className="hidden md:flex items-center">
-                    <a href="#" className="hover:text-[#5A8DEE]">Profile</a>
+                    <a href="/profile" className="hover:text-[#5A8DEE]">Profile</a>
                 </div>
             </div>
         </div>
