@@ -55,7 +55,7 @@ def login():
     if check_user(username, password):
         return jsonify({"message": "Login successful"}), 200
     else:
-        return jsonify({"error": "Invalid credentials"})
+        return jsonify({"error": "Invalid credentials"}), 500
     
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
