@@ -1,9 +1,10 @@
 # app.py
 from flask import Flask , request, jsonify
 from db import get_conn,check_user
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 '''
     This part to test connection with the database
@@ -39,8 +40,7 @@ def test():
         return "Updated!"
     except Exception as e: 
         return {'status': 'error','detail': str(e)}, 500
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+
 
 '''
     This part to post data for the frontend code
@@ -56,4 +56,6 @@ def login():
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"error": "Invalid credentials"})
-    return 
+    
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
