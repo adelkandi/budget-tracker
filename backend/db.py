@@ -19,7 +19,7 @@ def get_conn():
 def check_user(username, password):
     conn = get_conn()
     cursor = conn.cursor()
-    cursor.execute(f"SELECT * FROM users WHERE usernam={username} AND password={password}")
+    cursor.execute("SELECT * FROM users WHERE username=%s AND password_hash=%s", (username,password))
     user = cursor.fetchone()
     conn.close()
     return user is not None
