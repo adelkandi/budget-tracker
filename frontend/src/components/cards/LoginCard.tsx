@@ -1,9 +1,31 @@
 import Logo from "../../assets/BudgetTracker.svg"
+import {useState} from "react"
+import {useNavigate} from "react-router-dom"
 
 
 function LoginCard(){
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const navigate = useNavigate()
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault()
+        const response = await fetch("https://localhost:5000/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body:JSON.stringify({username,password})
+        })
+
+        // checking status:
+        if (response.ok){
+            navigate("/dashboard")
+        }else {
+            alert("Invalid username or password")
+        }
+    }
+
+
     return (
-        <form action="">
+        <form onSubmit={handleLogin}>
             <div className="container">
                 
                 <div className="cart-box">
@@ -15,11 +37,11 @@ function LoginCard(){
 
                     {/* User Name */}
                     <label htmlFor="uname"></label>
-                    <input className="card-form" type="text" placeholder=" Enter Username " name="uname" required/>
+                    <input className="card-form" type="text" placeholder=" Enter Username " value={username} onChange={(e) => setUsername(e.target.value)} required/>
 
                     {/* Password */}
                     <label htmlFor="psw"></label>
-                    <input className="card-form" type="password" placeholder=" Enter Password " name="psw" required/>
+                    <input className="card-form" type="password" placeholder=" Enter Password " value={password} onChange={(e) => setPassword(e.target.value)} required/>
 
                     {/* Create Account */}
                     <label htmlFor="cacc"></label>
