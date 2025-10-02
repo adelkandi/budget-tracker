@@ -1,8 +1,30 @@
 import Logo from "../../assets/BudgetTracker.svg"
-
+import {useState} from "react"
+import { useNavigate } from "react-router-dom"
 
 
 function RegisterCard(){
+    const [fname, setFname] = useState("")
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [password,setPassword] = useState('')
+    const navigate = useNavigate()
+    const handleregister = async (e:React.FormEvent) => {
+        e.preventDefault()
+        const response = await fetch("http://localhost:5000/register" ,{
+            method:"POST",
+            headers: {"Content-type": "application/json"},
+            body:JSON.stringify({fname,username,email,password})
+        })
+        if (response.ok){
+            navigate("/dashboard")
+        } else{
+            alert("Invalid input")
+        }
+    } 
+
+
+    // Register Card:
     return(
         <div className="container">
             <div className="cart-box">
