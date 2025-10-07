@@ -64,8 +64,10 @@ def register():
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
-    try:
-        create_user(name,username,email,password)
+    success = create_user(name,username,email,password) 
+
+    if success:
+        return jsonify({f"message":"user {username} have been created successfully"})
 
     
 if __name__ == "__main__":
