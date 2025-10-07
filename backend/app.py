@@ -1,6 +1,6 @@
 # app.py
 from flask import Flask , request, jsonify
-from db import get_conn,check_user
+from db import get_conn,check_user,create_user
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -56,6 +56,17 @@ def login():
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"error": "Invalid credentials"}), 500
+
+@app.post("/register")
+def register():
+    data = request.get_json()
+    name = data.get("name")
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+    try:
+        create_user(name,username,email,password)
+
     
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
