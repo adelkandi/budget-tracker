@@ -67,7 +67,9 @@ def register():
     success = create_user(name,username,email,password) 
 
     if success:
-        return jsonify({f"message":"user {username} have been created successfully"})
+        return jsonify({f"message":"user %s have been created successfully"},username),201
+    else: 
+        return jsonify({"error":"Registration failed"}),400
 
     
 if __name__ == "__main__":
