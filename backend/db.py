@@ -25,13 +25,25 @@ password_hash = ph(
     hash_len=32
 )
 
+# fix hash error later
 def check_user(username, password):
     conn = get_conn()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE username=%s AND password_hash=%s", (username,password))
-    user = cursor.fetchone()
+    
+    cursor.execute("SELECT password_hash from users where username=%s", (username,))
+    row = cursor.fetchone()
     conn.close()
-    return user is not None
+    if not row:
+        return False
+    stored_passwordhash = row[0]
+
+    try:
+        password_hash.verify(stored_passwordhash,password)
+        return True
+    except Exception as e :
+        print("error verifying password",e) 
+        return False                                                                                                                                                                                     
+    
 
 # Function to create users:
 
@@ -40,7 +52,7 @@ def create_user(name,username,email,password):
     cursor = conn.cursor()
     password_hashed = password_hash.hash(password)
     try: 
-        cursor.execute("INSERT TO (name, username, email, password_hash) VALUES(%s,%s,%s,%s)",(name, username, email, password_hashed))
+        cursor.execute("INSERT INTO users (name, username, email, password_hash) VALUES(%s,%s,%s,%s)",(name, username, email, password_hashed))
         conn.commit()
         return True 
     except Exception as e:
