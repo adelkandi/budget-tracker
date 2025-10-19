@@ -10,49 +10,49 @@ interface Transactions{
     notes: string;
 }
 
-// Table function:
-async function transactionsTable(){
-    // Fetchiong data from database:
-    const response = await fetch("http://192.168.0.149:5000/transactions")
-    const data: Transactions[] =  await response.json()
+// Table function: {just for fun} 
+// async function transactionsTable(){
+//     // Fetchiong data from database:
+//     const response = await fetch("http://192.168.0.149:5000/transactions")
+//     const data: Transactions[] =  await response.json()
 
-    // table:
-    const table = document.createElement("table")
-    table.className = "min-w-full border border-[#1E1E1E]"
+//     // table:
+//     const table = document.createElement("table")
+//     table.className = "min-w-full border border-[#1E1E1E]"
 
-    // thead:
-    const headers = ["Date","Type","Category","Amount","Method","Notes"]
-    const thead = document.createElement("thead")
-    const trHead = document.createElement("tr")
-    trHead.className= "bg-[#1E1E1E] text-gray-200"
-    headers.forEach(header => {
-        const th = document.createElement("th")
-        th.className = "py-3 px-4 text-left border-b"
-        th.textContent = header
-        trHead.append(th)
-        thead.append(trHead)
-    });
+//     // thead:
+//     const headers = ["Date","Type","Category","Amount","Method","Notes"]
+//     const thead = document.createElement("thead")
+//     const trHead = document.createElement("tr")
+//     trHead.className= "bg-[#1E1E1E] text-gray-200"
+//     headers.forEach(header => {
+//         const th = document.createElement("th")
+//         th.className = "py-3 px-4 text-left border-b"
+//         th.textContent = header
+//         trHead.append(th)
+//         thead.append(trHead)
+//     });
 
-    // tbody:
-    const tbody = document.createElement("tbody")
-    data.forEach((elements: Transactions) => {
-        const trBody = document.createElement("tr")
-        trBody.className = "bg-[#1E1E1E] text-gray-300"
-        headers.forEach(headers => {
-            const td = document.createElement("td")
-            td.className = "py-3 px-4 border-b"
-            td.textContent = String(elements[headers as keyof Transactions])
-            trBody.append(td)
-            tbody.append(trBody)
-        })
-    })
+//     // tbody:
+//     const tbody = document.createElement("tbody")
+//     data.forEach((elements: Transactions) => {
+//         const trBody = document.createElement("tr")
+//         trBody.className = "bg-[#1E1E1E] text-gray-300"
+//         headers.forEach(headers => {
+//             const td = document.createElement("td")
+//             td.className = "py-3 px-4 border-b"
+//             td.textContent = String(elements[headers as keyof Transactions])
+//             trBody.append(td)
+//             tbody.append(trBody)
+//         })
+//     })
     
-    // Constructing the taable: 
+//     // Constructing the taable: 
 
-    return table
+//     return table
     
     
-}
+// }
 
 function Transactions(){
     const [data, setData] = useState<Transactions[]>([])
