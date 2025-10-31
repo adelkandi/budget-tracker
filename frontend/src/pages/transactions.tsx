@@ -56,11 +56,13 @@ interface Transactions{
 
 function Transactions(){
     const [data, setData] = useState<Transactions[]>([])
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
-        fetch("http://192.168.0.149:5000/transactions")
+        fetch("http://192.168.0.161:5000/transactions")
         .then((res) => res.json())
         .then((data) => setData(data))
         .catch((err) => console.error("error fetching data:", err))
+        .finally(() => setLoading(false));
     }, [])
 
     return (
@@ -89,7 +91,7 @@ function Transactions(){
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((elements, index) => (<tr className="bg-[#1E1E1E] text-gray-300">
+                            {data.map((elements, index) => (<tr key={index} className="bg-[#1E1E1E] text-gray-300">
                                 <td className="py-3 px-4 border-b">{elements.txn_date}</td>
                                 <td className="py-3 px-4 border-b">{elements.type}</td>
                                 <td className="py-3 px-4 border-b">{elements.category}</td>
