@@ -66,5 +66,7 @@ def create_user(name,username,email,password):
 def table_data():
     conn = get_conn()
     cursor = conn.cursor()
-    data = cursor.execute("SELECT * FROM transactions ORDER BY txn_date DESC")
+    cursor.execute("SELECT * FROM transactions ORDER BY txn_date DESC")
+    data = cursor.fetchall()
+    conn.close()
     return data
