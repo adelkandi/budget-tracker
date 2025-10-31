@@ -1,6 +1,6 @@
 # app.py
 from flask import Flask , request, jsonify
-from db import get_conn,check_user,create_user
+from db import get_conn,check_user,create_user,table_data
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -71,10 +71,10 @@ def register():
     else: 
         return jsonify({"error":"Registration failed"}),400
 
-@app.post("/transactions")
+@app.route("/transactions", methods=["GET","POST"])
 def transactions():
-    
-    return 
+    data= table_data()
+    return jsonify(data)
     
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
