@@ -69,4 +69,16 @@ def table_data():
     cursor.execute("SELECT * FROM transactions ORDER BY txn_date DESC")
     data = cursor.fetchall()
     conn.close()
-    return data
+
+    result = [
+        {
+        "txn_date":row[2],
+        "type": row[3],
+        "category": row[4],
+        "amount": row[5],
+        "payment_method": row[6],
+        "notes": row[7]}
+        for row in data
+    ]
+    
+    return result
