@@ -16,7 +16,7 @@ function Transactions(){
     const [data, setData] = useState<Transactions[]>([])
     const [loading, setLoading] = useState(true)
     useEffect(() => {
-        fetch("http://192.168.0.161:5000/transactions")
+        fetch("http://192.168.0.168:5000/transactions")
         .then((res) => res.json())
         .then((data) => setData(data))
         .catch((err) => console.error("error fetching data:", err))
@@ -27,7 +27,7 @@ function Transactions(){
         <>
             <Navbar />
             <h1 className="title text-5xl mx-5 my-5">Transactions</h1>
-            <div className="transactions-container grid justify-center">
+            <div className="transactions-container grid justify-center ">
                 {/* This is a test to design the table later it will change {AI help used for testing here, the real design will come later after db is connected}*/}
                 <button className=" button inline-flex items-center justify-self-end px-6 py-2 rounded-lg
                             bg-blue-700 text-white font-semibold
