@@ -1,6 +1,6 @@
 # app.py
 from flask import Flask , request, jsonify
-from db import get_conn,check_user,create_user,table_data
+from db import get_conn,check_user,create_user,table_data,get_budget_data
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -75,6 +75,19 @@ def register():
 def transactions():
     data= table_data()
     return jsonify(data)
+
+@app.get("/budget")
+def budget():
+    """
+    Get budget data aggregated by category.
+    Returns budgeted amount and spent amount for each category.
+    """
+    try:
+        user_id = request.args.get("user_id", 1)  # Default to user 1 for now
+        data = get_budget_data(user_id)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
