@@ -81,3 +81,10 @@ body{
 .card-container{
   flex: 5;
 }
+
+
+/* Transactions Page */
+
+.transaction-container{
+  margin-bottom: 2rem;
+}
