@@ -82,3 +82,52 @@ def table_data():
     ]
     
     return result
+
+def get_budget_data(user_id=1):
+    """
+    Get budget data aggregated by category.
+    Returns budgeted amount and spent amount for each category.
+    """
+    conn = get_conn()
+    cursor = conn.cursor()
+    
+    # Get spending by category (only Expense type)
+    query = """
+        SELECT 
+            category,
+            SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END) as spent
+        FROM transactions
+        WHERE user_id = %s
+        GROUP BY category
+        ORDER BY category
+    """
+    
+    cursor.execute(query, (user_id,))
+    data = cursor.fetchall()
+    conn.close()
+    
+    # Default budget amounts per category (can be customized or moved to a budgets table)
+    default_budgets = {
+        "Groceries": 500,
+        "Transportation": 200,
+        "Entertainment": 150,
+        "Utilities": 300,
+        "Dining Out": 200,
+        "Shopping": 250,
+        "Tips": 100,
+        "Other": 200
+    }
+    
+    result = []
+    for row in data:
+        category = row[0]
+        spent = float(row[1]) if row[1] else 0.0
+        budgeted = default_budgets.get(category, 200)  # Default to 200 if category not in list
+        
+        result.append({
+            "category": category,
+            "budgeted": budgeted,
+            "spent": spent
+        })
+    
+    return result
