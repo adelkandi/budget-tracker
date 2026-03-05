@@ -78,7 +78,7 @@ function Profile(){
                 
                 {user && (
                     <div style={{ 
-                        backgroundColor: "#f5f5f5", 
+                        backgroundColor: "#1E1E1E", 
                         padding: "2rem", 
                         borderRadius: "8px",
                         marginBottom: "1rem"
