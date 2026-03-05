@@ -4,3 +4,4 @@ python-dotenv
 PyJWT
 argon2-cffi
 supabase
+gunicorn
