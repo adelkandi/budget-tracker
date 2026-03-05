@@ -16,7 +16,7 @@ function Transactions(){
     const [data, setData] = useState<Transactions[]>([])
     const [_loading, setLoading] = useState(true)
     useEffect(() => {
-        fetch("https://budget-tracker.railway.app/transactions", {
+        fetch("https://budget-tracker-production-a211.up.railway.app/transactions", {
             credentials: "include" // Include cookies for authentication
         })
         .then((res) => res.json())

@@ -1,6 +1,6 @@
 // API service for budget-related endpoints
 
-const API_BASE_URL = "https://budget-tracker.railway.app";
+const API_BASE_URL = "https://budget-tracker-production-a211.up.railway.app";
 
 // Default fetch options to include credentials (cookies)
 const fetchOptions: RequestInit = {
