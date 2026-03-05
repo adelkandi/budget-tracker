@@ -1,25 +1,29 @@
 import Logo from "../../assets/BudgetTracker.svg"
 import {useState} from "react"
 import {useNavigate} from "react-router-dom"
+import { login } from "../../api/budgetApi"
 
 
 function LoginCard(){
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
     const navigate = useNavigate()
+    
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
-        const response = await fetch("http://localhost:5000/login", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body:JSON.stringify({username,password})
-        })
-
-        // checking status:
-        if (response.ok){
+        setError("")
+        
+        try {
+            const result = await login(username, password)
+            console.log("Login successful:", result.user)
+            // Store user data in localStorage for easy access
+            localStorage.setItem("user", JSON.stringify(result.user))
             navigate("/dashboard")
-        }else {
-            alert("Invalid username or password")
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : "Login failed"
+            setError(errorMessage)
+            alert(errorMessage)
         }
     }
 
