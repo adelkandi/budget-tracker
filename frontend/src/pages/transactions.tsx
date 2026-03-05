@@ -16,7 +16,9 @@ function Transactions(){
     const [data, setData] = useState<Transactions[]>([])
     const [loading, setLoading] = useState(true)
     useEffect(() => {
-        fetch("http://192.168.0.168:5000/transactions")
+        fetch("http://localhost:5001/transactions", {
+            credentials: "include" // Include cookies for authentication
+        })
         .then((res) => res.json())
         .then((data) => setData(data))
         .catch((err) => console.error("error fetching data:", err))
