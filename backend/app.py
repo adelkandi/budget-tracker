@@ -8,18 +8,49 @@ from datetime import datetime, timedelta
 from functools import wraps
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=[
-    "http://localhost:5174",
-    "http://localhost:5173", 
-    "http://127.0.0.1:5174",
-    "http://127.0.0.1:5173",
-    "http://localhost:3000"
-])
+
+APP_ENV = os.getenv("APP_ENV", "development").lower()
+IS_PROD = APP_ENV == "production"
+
+origins_env = os.getenv(
+    "FRONTEND_ORIGINS",
+    "http://localhost:5174,http://localhost:5173,http://127.0.0.1:5174,http://127.0.0.1:5173,http://localhost:3000",
+)
+FRONTEND_ORIGINS = [origin.strip() for origin in origins_env.split(",") if origin.strip()]
+
+CORS(app, supports_credentials=True, origins=FRONTEND_ORIGINS)
 
 # JWT Configuration
-JWT_SECRET = os.getenv("JWT_SECRET_KEY", "your-secret-key")
+JWT_SECRET = os.getenv("JWT_SECRET_KEY")
+if not JWT_SECRET:
+    raise RuntimeError("JWT_SECRET_KEY is required")
+
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 24 * 7  # 7 days
+COOKIE_SECURE = os.getenv("COOKIE_SECURE", "true" if IS_PROD else "false").lower() == "true"
+COOKIE_SAMESITE = os.getenv("COOKIE_SAMESITE", "None" if COOKIE_SECURE else "Lax")
+
+
+def set_auth_cookie(response, token):
+    response.set_cookie(
+        "auth_token",
+        token,
+        httponly=True,
+        secure=COOKIE_SECURE,
+        samesite=COOKIE_SAMESITE,
+        max_age=60 * 60 * 24 * 7,
+    )
+
+
+def clear_auth_cookie(response):
+    response.set_cookie(
+        "auth_token",
+        "",
+        httponly=True,
+        secure=COOKIE_SECURE,
+        samesite=COOKIE_SAMESITE,
+        max_age=0,
+    )
 
 def create_token(user_data):
     """Create a JWT token"""
@@ -81,6 +112,9 @@ def health():
 
 @app.get("/test")
 def test():
+    if os.getenv("ENABLE_TEST_ENDPOINT", "false").lower() != "true":
+        return jsonify({"error": "Not found"}), 404
+
     try:
         # Insert test transaction
         response = supabase.table("transactions").insert({
@@ -112,13 +146,12 @@ def test():
 
 @app.post("/login")
 def login():
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     username = data.get("username")
     password = data.get("password")
-    
-    print(f"\n=== LOGIN ATTEMPT ===")
-    print(f"Username: {username}")
-    print(f"Password provided: {bool(password)}")
+
+    if not username or not password:
+        return jsonify({"error": "Username and password are required"}), 400
     
     # Check credentials
     if check_user(username, password):
@@ -139,40 +172,21 @@ def login():
                     "email": user_data["email"]
                 }
             }), 200)
-            
-            # Set cookie with JWT token
-            response.set_cookie(
-                "auth_token",
-                token,
-                httponly=True,
-                secure=False,
-                samesite="Lax",
-                max_age=60 * 60 * 24 * 7
-            )
-            
-            print(f"✓ Login successful for {username}\n")
+            set_auth_cookie(response, token)
             return response
-    
-    print(f"✗ Login failed for {username} - Invalid credentials\n")
+
     return jsonify({"error": "Invalid credentials"}), 401
 
 @app.post("/register")
 def register():
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     name = data.get("name")
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
-    
-    print(f"\n=== REGISTRATION ATTEMPT ===")
-    print(f"Name: {name}")
-    print(f"Username: {username}")
-    print(f"Email: {email}")
-    print(f"Password provided: {bool(password)}")
-    
+
     # Validate input
     if not all([name, username, email, password]):
-        print("✗ Missing required fields")
         return jsonify({"error": "All fields are required"}), 400
     
     user_id = create_user(name, username, email, password)
@@ -195,27 +209,14 @@ def register():
                     "email": user_data["email"]
                 }
             }), 201)
-            
-            # Set cookie with JWT token
-            response.set_cookie(
-                "auth_token",
-                token,
-                httponly=True,
-                secure=False,
-                samesite="Lax",
-                max_age=60 * 60 * 24 * 7
-            )
-            
-            print(f"✓ Registration successful for {username}\n")
+            set_auth_cookie(response, token)
             return response
-        
-        print(f"✓ User created with ID {user_id} but couldn't fetch data\n")
+
         return jsonify({
             "message": f"User {username} has been created successfully",
             "user_id": user_id
         }), 201
-    else: 
-        print(f"✗ Registration failed for {username} - likely duplicate username/email\n")
+    else:
         return jsonify({"error": "Registration failed. Username or email may already exist."}), 400
 
 @app.get("/auth/me")
@@ -250,14 +251,7 @@ def profile():
 def logout():
     """Logout user by clearing the auth cookie"""
     response = make_response(jsonify({"message": "Logged out successfully"}), 200)
-    response.set_cookie(
-        "auth_token",
-        "",
-        httponly=True,
-        secure=False,
-        samesite="Lax",
-        max_age=0  # Expire immediately
-    )
+    clear_auth_cookie(response)
     return response
 
 @app.route("/transactions", methods=["GET", "POST"])
@@ -302,4 +296,8 @@ def budget():
         return jsonify({"error": str(e)}), 500
     
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", "5001")),
+        debug=os.getenv("DEBUG", "false").lower() == "true",
+    )
