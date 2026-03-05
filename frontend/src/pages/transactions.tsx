@@ -14,9 +14,9 @@ interface Transactions{
 
 function Transactions(){
     const [data, setData] = useState<Transactions[]>([])
-    const [loading, setLoading] = useState(true)
+    const [_loading, setLoading] = useState(true)
     useEffect(() => {
-        fetch("http://localhost:5001/transactions", {
+        fetch("https://budget-tracker.railway.app/transactions", {
             credentials: "include" // Include cookies for authentication
         })
         .then((res) => res.json())
