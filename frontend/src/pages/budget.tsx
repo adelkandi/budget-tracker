@@ -13,7 +13,7 @@ function Budget(){
         const loadBudgetData = async () => {
             try {
                 setLoading(true);
-                const data = await fetchBudgetData(1); // User ID 1 for now
+                const data = await fetchBudgetData(); // Uses authenticated user from cookie
                 setBudgetItems(data);
                 setError(null);
             } catch (err) {
