@@ -9,6 +9,9 @@ load_dotenv()
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise RuntimeError("SUPABASE_URL and SUPABASE_KEY are required")
+
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Password hasher configuration
@@ -36,26 +39,18 @@ def check_user(username, password):
     """Check if user exists and password is correct"""
     try:
         response = supabase.table("users").select("password_hash").eq("username", username).execute()
-        
-        print(f"DEBUG: Looking for user: {username}")
-        print(f"DEBUG: Response data: {response.data}")
-        
+
         if not response.data or len(response.data) == 0:
-            print(f"DEBUG: User {username} not found")
             return False
-        
+
         stored_passwordhash = response.data[0]["password_hash"]
-        print(f"DEBUG: Found user, stored hash length: {len(stored_passwordhash)}")
-        
+
         try:
             password_hash.verify(stored_passwordhash, password)
-            print(f"DEBUG: Password verified successfully")
             return True
-        except Exception as e:
-            print(f"Error verifying password: {e}") 
+        except Exception:
             return False
-    except Exception as e:
-        print(f"Error checking user: {e}")
+    except Exception:
         return False
 
 def get_user_by_username(username):
@@ -91,35 +86,25 @@ def create_user(name, username, email, password):
     """Create a new user"""
     try:
         password_hashed = password_hash.hash(password)
-        
-        print(f"\nDEBUG: Attempting to create user: {username}")
-        
+
         response = supabase.table("users").insert({
             "name": name,
             "username": username,
             "email": email,
             "password_hash": password_hashed
         }).execute()
-        
-        print(f"DEBUG: Response: {response}")
-        print(f"DEBUG: Response data: {response.data}")
-        
+
         if response.data and len(response.data) > 0:
             user_id = response.data[0].get("user_id")
             if user_id is None:
                 # Some PostgREST settings can return minimal data on insert.
                 created_user = get_user_by_username(username)
                 return created_user["id"] if created_user else False
-            print(f"✓ User created successfully with ID {user_id}")
             return user_id
-        
-        print(f"✗ No data returned from insert")
+
         created_user = get_user_by_username(username)
         return created_user["id"] if created_user else False
-    except Exception as e:
-        print(f"✗ Error creating user: {type(e).__name__}: {e}")
-        import traceback
-        traceback.print_exc()
+    except Exception:
         return False
         
 def table_data(user_id=None):
