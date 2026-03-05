@@ -1,6 +1,7 @@
 import Logo from "../../assets/BudgetTracker.svg"
 import {useState} from "react"
 import { useNavigate } from "react-router-dom"
+import { register } from "../../api/budgetApi"
 
 
 function RegisterCard(){
@@ -8,18 +9,23 @@ function RegisterCard(){
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password,setPassword] = useState('')
+    const [error, setError] = useState("")
     const navigate = useNavigate()
+    
     const handleregister = async (e:React.FormEvent) => {
         e.preventDefault()
-        const response = await fetch("http://localhost:5000/register" ,{
-            method:"POST",
-            headers: {"Content-type": "application/json"},
-            body:JSON.stringify({name,username,email,password})
-        })
-        if (response.ok){
+        setError("")
+        
+        try {
+            const result = await register(name, username, email, password)
+            console.log("Registration successful:", result.user)
+            // Store user data in localStorage for easy access
+            localStorage.setItem("user", JSON.stringify(result.user))
             navigate("/dashboard")
-        } else{
-            alert("Invalid input")
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : "Registration failed"
+            setError(errorMessage)
+            alert(errorMessage)
         }
     } 
 
