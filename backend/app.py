@@ -14,7 +14,7 @@ IS_PROD = APP_ENV == "production"
 
 origins_env = os.getenv(
     "FRONTEND_ORIGINS",
-    "http://https://budget-tracker-ecru-psi.vercel.app/",
+    "http://localhost:5173,http://localhost:5174,https://budget-tracker-ecru-psi.vercel.app",
 )
 FRONTEND_ORIGINS = [origin.strip() for origin in origins_env.split(",") if origin.strip()]
 
