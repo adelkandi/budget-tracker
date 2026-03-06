@@ -117,11 +117,11 @@ function Home() {
                     </p>
                     <button
                         onClick={() => navigate("/register")}
-                        className="button h-40 w-50 inline-flex items-center justify-center px-8 py-3 rounded-lg
-                            bg-blue-700 text-white font-semibold
+                        className="button mx-auto flex items-center justify-center px-8 py-3 rounded-lg min-w-fit
+                            bg-blue-700 text-white font-semibold whitespace-nowrap
                             hover:bg-blue-800 active:bg-blue-900
                             focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2
-                            transition "
+                            transition"
                     >
                         Create Your Account Now
                     </button>
